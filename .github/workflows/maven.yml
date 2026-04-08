@@ -23,5 +23,11 @@ jobs:
           java-version: 21
           cache: maven
 
-      - name: Build with Maven
-        run: mvn clean verify
+      - name: Build and test with Maven
+        run: mvn clean verify -e
+
+      - name: Print surefire reports if tests fail
+        if: failure()
+        run: |
+          echo "=== Surefire reports ==="
+          find target/surefire-reports -type f -name "*.txt" -exec echo "----- {} -----" \; -exec cat {} \;
