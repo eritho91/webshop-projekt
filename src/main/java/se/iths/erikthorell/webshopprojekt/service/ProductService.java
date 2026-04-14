@@ -1,7 +1,58 @@
 package se.iths.erikthorell.webshopprojekt.service;
 
 import org.springframework.stereotype.Service;
+import se.iths.erikthorell.webshopprojekt.model.Category;
+import se.iths.erikthorell.webshopprojekt.model.Product;
+import se.iths.erikthorell.webshopprojekt.repository.ProductRepository;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class ProductService {
+    private final ProductRepository productRepository;
+
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
+    }
+
+    public Product getProductByName(String name) {
+        return productRepository.findByName(name);
+    }
+
+    public Product getProductByCategory(Category category) {
+        return productRepository.findByCategory(category);
+    }
+
+    public Product getProductByPrice(BigDecimal price) {
+        return productRepository.findByPrice(price);
+    }
+
+    public Product createProduct(Product product) {
+        return productRepository.save(product);
+    }
+
+    public Product updateProduct(Long id, Product product) {
+        Product existing = productRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Product with id " + id + " not found"));
+
+        existing.setName(product.getName());
+        existing.setPrice(product.getPrice());
+        existing.setCategory(product.getCategory());
+
+        return productRepository.save(existing);
+    }
+
+    public void deleteProduct(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Product with id " + id + " not found"));
+
+        productRepository.delete(product);
+    }
 }
