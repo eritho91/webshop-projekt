@@ -1,6 +1,10 @@
 package se.iths.erikthorell.webshopprojekt.service;
 
+import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import se.iths.erikthorell.webshopprojekt.model.Category;
 import se.iths.erikthorell.webshopprojekt.model.Product;
 import se.iths.erikthorell.webshopprojekt.repository.ProductRepository;
@@ -32,7 +36,9 @@ public class ProductService {
         return productRepository.findByPrice(price);
     }
 
-    public Product createProduct(Product product) {
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/products")
+    public Product createProduct(@Valid @RequestBody Product product) {
         return productRepository.save(product);
     }
 
