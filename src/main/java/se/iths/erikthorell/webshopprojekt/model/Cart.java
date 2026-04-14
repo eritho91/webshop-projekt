@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Cart {
 
- 
+
     // Lista för kundvagnen
     private List<CartItem> items = new ArrayList<>();
 
