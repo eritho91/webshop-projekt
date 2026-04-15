@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import se.iths.erikthorell.webshopprojekt.model.Cart;
 import se.iths.erikthorell.webshopprojekt.model.Product;
+import se.iths.erikthorell.webshopprojekt.service.CartService;
 import se.iths.erikthorell.webshopprojekt.service.ProductService;
 
 @Controller
@@ -15,32 +16,18 @@ import se.iths.erikthorell.webshopprojekt.service.ProductService;
 public class CartController {
 
     private final ProductService productService;
-    private final Cart cart;
+    private final CartService cartService;
 
-    public CartController(ProductService productService, Cart cart) {
+    public CartController(ProductService productService, CartService cartService) {
         this.productService = productService;
-        this.cart = cart;
+        this.cartService = cartService;
     }
 
-
-    // hämta eller skapa en ny kundvagn i sessionen
-    private Cart getOrCreateCart(HttpSession session) {
-
-        // kollar om cart finns
-        Cart cart = (Cart) session.getAttribute("cart");
-
-        // om kunden inte har en vagn än
-        if (cart == null) {
-            cart = new Cart(); // skapar en ny tom vagn
-            session.setAttribute("cart", cart); // sparar vagnen i sessionen för framtiden
-        }
-        return cart;
-    }
 
     // visar kundvagnssidan
     @GetMapping
     public String showCart(HttpSession session, Model model) {
-        Cart cart = getOrCreateCart(session); // hämtar vagnen från session
+        Cart cart = cartService.getOrCreateCart(session); // hämtar vagnen från session
         model.addAttribute("cart", cart); // skickar vagnen till HTML sidan
 
         return "cart";
@@ -51,7 +38,7 @@ public class CartController {
     public String addToCart(@PathVariable Long id, HttpSession session) {
         Product product = productService.findById(id); // hämtar produkt via id
 
-        Cart cart = getOrCreateCart(session); // hämtar kundens vagn
+        Cart cart = cartService.getOrCreateCart(session); // hämtar kundens vagn
         cart.addProduct(product); // lägger till produkten i vagnen
 
         return "redirect:/products";
