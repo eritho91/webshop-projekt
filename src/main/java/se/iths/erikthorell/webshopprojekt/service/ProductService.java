@@ -9,7 +9,6 @@ import se.iths.erikthorell.webshopprojekt.model.Category;
 import se.iths.erikthorell.webshopprojekt.model.Product;
 import se.iths.erikthorell.webshopprojekt.repository.ProductRepository;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -32,7 +31,7 @@ public class ProductService {
         return productRepository.findByCategory(category);
     }
 
-    public Product getProductByPrice(BigDecimal price) {
+    public Product getProductByPrice(double price) {
         return productRepository.findByPrice(price);
     }
 
@@ -60,5 +59,13 @@ public class ProductService {
                         new RuntimeException("Product with id " + id + " not found"));
 
         productRepository.delete(product);
+
+    }
+
+    // Hämtar en specifik produkt baserat på ID
+    public Product findById(Long id) {
+        // Vi letar efter produkten. Om den inte finns kastar vi ett felmeddelande.
+        return productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Produkten hittades inte!"));
     }
 }
