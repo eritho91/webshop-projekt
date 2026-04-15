@@ -1,6 +1,7 @@
 package se.iths.erikthorell.webshopprojekt.model;
 
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,10 +38,13 @@ public class Cart {
     }
 
     // räknar ut totala summan för hela kundvagnen
-    public double getTotalCartPrice() {
-        return items
-                .stream() // kollar igenom kundvagnen
-                .mapToDouble(CartItem::getTotalPrice) // omvandlar varorna till siffror
-                .sum(); // plusar ihop alla varor och ger totala summan
+    public BigDecimal getTotalCartPrice() {
+        BigDecimal total = BigDecimal.ZERO; // börjar på 0
+        // går igenom listan
+        for (CartItem item : items) {
+            // räknar ihop total summan
+            total = total.add(item.getTotalPrice());
+        }
+        return total;
     }
 }
