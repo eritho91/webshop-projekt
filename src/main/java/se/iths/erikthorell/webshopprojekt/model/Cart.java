@@ -4,6 +4,7 @@ package se.iths.erikthorell.webshopprojekt.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,11 +43,23 @@ public class Cart {
         items.clear();
     }
 
-    // räknar ut totala summan för hela kundvagnen
-    public double getTotalCartPrice() {
-        return items
-                .stream() // kollar igenom kundvagnen
-                .mapToDouble(CartItem::getTotalPrice) // omvandlar varorna till siffror
-                .sum(); // plusar ihop alla varor och ger totala summan
+    public BigDecimal getTotalPrice() {
+        BigDecimal total = BigDecimal.ZERO; // startar på 0
+
+        for (CartItem item : items) {
+            // totalen på varje rad
+            total = total.add(item.getTotalPrice());
+        }
+
+        return total;
     }
 }
+
+
+//    public BigDecimal getTotalCartPrice() {
+//        return items
+//                .stream() // kollar igenom kundvagnen
+//                .mapToDouble(CartItem::getTotalPrice) // omvandlar varorna till siffror
+//                .sum(); // plusar ihop alla varor och ger totala summan
+//    }
+//}

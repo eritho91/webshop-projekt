@@ -3,6 +3,8 @@ package se.iths.erikthorell.webshopprojekt.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 public class CartItem {
@@ -19,7 +21,8 @@ public class CartItem {
     }
 
     // räknar ut priset för raden
-    public double getTotalPrice() {
-        return product.getPrice() * quantity;
+    public BigDecimal getTotalPrice() {
+        // Vi tar produktens pris (BigDecimal) och multiplicerar med antal (omvandlat till BigDecimal)
+        return product.getPrice().multiply(BigDecimal.valueOf(quantity));
     }
 }

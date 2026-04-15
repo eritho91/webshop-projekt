@@ -34,7 +34,7 @@ public class CartController {
     }
 
     // lägga till varor i vagnen
-    @GetMapping("/cart/add/{id}")
+    @GetMapping("/add/{id}")
     public String addToCart(@PathVariable Long id, HttpSession session) {
         Product product = productService.findById(id); // hämtar produkt via id
 
