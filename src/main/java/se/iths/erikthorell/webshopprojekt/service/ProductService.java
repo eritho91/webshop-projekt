@@ -12,7 +12,6 @@ import se.iths.erikthorell.webshopprojekt.model.Product;
 import se.iths.erikthorell.webshopprojekt.repository.ProductRepository;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class ProductService {
@@ -26,7 +25,7 @@ public class ProductService {
     public List<Product> getProducts(Authentication auth) {
 
         boolean isAdmin = auth.getAuthorities().stream()
-                .anyMatch(a -> Objects.equals(a.getAuthority(), "ROLE_ADMIN"));
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
 
         if (isAdmin) {
             return productRepository.findAll();
