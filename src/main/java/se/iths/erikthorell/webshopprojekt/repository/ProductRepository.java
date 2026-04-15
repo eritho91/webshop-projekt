@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import se.iths.erikthorell.webshopprojekt.model.Category;
 import se.iths.erikthorell.webshopprojekt.model.Product;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +17,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Product findByCategory(Category category);
 
-    Product findByPrice(@Positive double price);
+    Product findByPrice(@Positive BigDecimal price);
 
     Optional<Product> findById(Long id);
 
