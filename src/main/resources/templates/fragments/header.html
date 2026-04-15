@@ -1,0 +1,41 @@
+<header th:fragment="header" class="header" xmlns:th="http://www.w3.org/1999/xhtml">
+
+    <!-- Logo -->
+    <div class="logo">
+        <a th:href="@{/}">VitaMax</a>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav-links">
+        <a th:href="@{/products}">Produkter</a>
+        <a th:href="@{/cart}">Kundvagn</a>
+        <a th:href="@{/profile}">Profil</a>
+
+        <!-- Admin (endast ADMIN) -->
+        <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}"
+           th:href="@{/admin}">
+            Admin
+        </a>
+    </nav>
+
+    <!-- Höger sida -->
+    <div class="right-section">
+
+        <!-- Ej inloggad -->
+        <div th:if="${#authorization.expression('isAnonymous()')}">
+            <a th:href="@{/login}" class="btn">Login</a>
+            <a th:href="@{/register}" class="btn">Registrera</a>
+        </div>
+
+        <!-- Inloggad -->
+        <div th:if="${#authorization.expression('isAuthenticated()')}">
+            <span th:text="${#authentication.name}"></span>
+
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" class="btn logout-btn">Logout</button>
+            </form>
+        </div>
+
+    </div>
+
+</header>
