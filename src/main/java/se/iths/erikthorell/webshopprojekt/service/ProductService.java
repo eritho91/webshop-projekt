@@ -2,7 +2,9 @@ package se.iths.erikthorell.webshopprojekt.service;
 
 import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import se.iths.erikthorell.webshopprojekt.model.Category;
@@ -10,6 +12,7 @@ import se.iths.erikthorell.webshopprojekt.model.Product;
 import se.iths.erikthorell.webshopprojekt.repository.ProductRepository;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ProductService {
@@ -19,8 +22,17 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    @GetMapping("/products")
+    public List<Product> getProducts(Authentication auth) {
+
+        boolean isAdmin = auth.getAuthorities().stream()
+                .anyMatch(a -> Objects.equals(a.getAuthority(), "ROLE_ADMIN"));
+
+        if (isAdmin) {
+            return productRepository.findAll();
+        } else {
+            return productRepository.findByAdminOnlyFalse();
+        }
     }
 
     public Product getProductByName(String name) {

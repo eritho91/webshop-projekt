@@ -36,6 +36,9 @@ public class Product {
 
     private String imageUrl;
 
+    @Column(name = "admin_only")
+    private boolean adminOnly;
+
     public Product() {
     }
 

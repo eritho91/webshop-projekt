@@ -6,16 +6,19 @@ import org.springframework.stereotype.Repository;
 import se.iths.erikthorell.webshopprojekt.model.Category;
 import se.iths.erikthorell.webshopprojekt.model.Product;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    public Product findByName(String name);
+    Product findByName(String name);
 
-    public Product findByCategory(Category category);
+    Product findByCategory(Category category);
 
-    public Product findByPrice(@Positive double price);
+    Product findByPrice(@Positive double price);
 
-    public Optional<Product> findById(Long id);
+    Optional<Product> findById(Long id);
+
+    List<Product> findByAdminOnlyFalse();
 }
