@@ -2,6 +2,7 @@ package se.iths.erikthorell.webshopprojekt.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -23,8 +24,8 @@ public class ProductController {
         this.productService = productService;
     }
 
-    public List<Product> getAllProducts() {
-        return productService.getAllProducts();
+    public List<Product> getAllProducts(Authentication auth) {
+        return productService.getProducts(auth);
     }
 
     public Product getProductByName(String name) {
