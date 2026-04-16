@@ -4,10 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import se.iths.erikthorell.webshopprojekt.model.Category;
 import se.iths.erikthorell.webshopprojekt.model.Product;
 import se.iths.erikthorell.webshopprojekt.service.ProductService;
@@ -25,22 +22,27 @@ public class ProductController {
         this.productService = productService;
     }
 
+    @GetMapping
     public List<Product> getAllProducts(Authentication auth) {
         return productService.getProducts(auth);
     }
 
-    public Product getProductByName(String name) {
+    @GetMapping("/name/{name}")
+    public Product getProductByName(@PathVariable String name) {
         return productService.getProductByName(name);
     }
 
-    public Product getProductByCategory(Category category) {
+    @GetMapping("/category/{category}")
+    public Product getProductByCategory(@PathVariable Category category) {
         return productService.getProductByCategory(category);
     }
 
-    public Product getProductByPrice(BigDecimal price) {
+    @GetMapping("/price/{price}")
+    public Product getProductByPrice(@PathVariable BigDecimal price) {
         return productService.getProductByPrice(price);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public Product createProduct(@Valid @RequestBody Product product) {
         return productService.createProduct(product);
@@ -48,13 +50,14 @@ public class ProductController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
-    public Product updateProduct(@Valid @RequestBody Long id, Product product) {
+    public Product updateProduct(@PathVariable Long id,
+                                 @Valid @RequestBody Product product) {
         return productService.updateProduct(id, product);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping("/{id}")
-    public void deleteProduct(@Valid @RequestBody Long id) {
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@Valid @PathVariable Long id) {
         productService.deleteProduct(id);
     }
 }
