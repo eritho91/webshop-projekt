@@ -8,6 +8,7 @@ import se.iths.erikthorell.webshopprojekt.repository.ProductRepository;
 
 import java.util.Comparator;
 import java.util.LinkedHashMap;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -52,7 +53,7 @@ public class ProductService {
         return productRepository.findByCategory(category);
     }
 
-    public Product getProductByPrice(double price) {
+    public Product getProductByPrice(BigDecimal price) {
         return productRepository.findByPrice(price);
     }
 
