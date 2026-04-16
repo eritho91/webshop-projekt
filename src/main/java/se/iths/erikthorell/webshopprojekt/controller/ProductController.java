@@ -12,6 +12,7 @@ import se.iths.erikthorell.webshopprojekt.model.Category;
 import se.iths.erikthorell.webshopprojekt.model.Product;
 import se.iths.erikthorell.webshopprojekt.service.ProductService;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
@@ -36,7 +37,7 @@ public class ProductController {
         return productService.getProductByCategory(category);
     }
 
-    public Product getProductByPrice(double price) {
+    public Product getProductByPrice(BigDecimal price) {
         return productService.getProductByPrice(price);
     }
 
