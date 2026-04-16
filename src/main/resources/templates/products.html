@@ -1,10 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Products</title>
+    <title>Produkter</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<main>
+    <section class="page-intro">
+        <h1>Våra produkter</h1>
+        <p>Utforska vårt sortiment av kosttillskott inom protein, vitamin&mineral, diet och food.</p>
+    </section>
+
+    <section class="product-grid">
+
+        <div class="product-card" th:each="product : ${products}">
+            <img th:src="${product.imageUrl}" th:alt="${product.name}">
+
+            <div class="product-name" th:text="${product.name}">Produktnamn</div>
+
+            <div class="product-category">
+                Kategori: <span th:text="${product.category}">Protein</span>
+            </div>
+
+            <div class="product-price" th:text="${product.price} + ' kr'">299 kr</div>
+
+            <form th:action="@{/cart/add/{id}(id=${product.id})}" method="post">
+                <button type="submit" class="btn">Lägg till i kundvagn</button>
+            </form>
+        </div>
+
+    </section>
+</main>
+
+<div th:replace="fragments/footer :: footer"></div>
 
 </body>
 </html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Kundvagn</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<main class="cart-container">
+    <section class="page-intro">
+        <h1>Din kundvagn</h1>
+        <p>Här ser du produkterna du har lagt till i kundvagnen.</p>
+    </section>
+
+    <!-- Om kundvagnen är tom -->
+    <section th:if="${#lists.isEmpty(cart.items)}" class="empty-cart">
+        <p>Din kundvagn är tom.</p>
+        <a th:href="@{/products}" class="btn">Till produkterna</a>
+    </section>
+
+    <!-- Om kundvagnen innehåller produkter -->
+    <section th:if="${not #lists.isEmpty(cart.items)}" class="cart-content">
+
+        <div class="cart-list">
+            <div class="cart-item" th:each="item : ${cart.items}">
+                <div class="cart-item-left">
+                    <img th:if="${item.product.imageUrl != null and !#strings.isEmpty(item.product.imageUrl)}"
+                         th:src="${item.product.imageUrl}"
+                         th:alt="${item.product.name}"
+                         class="cart-image">
+
+                    <div class="cart-item-info">
+                        <h3 th:text="${item.product.name}">Produktnamn</h3>
+                        <p>
+                            Kategori:
+                            <span th:text="${item.product.category != null ? item.product.category.name : 'Ingen kategori'}">Kategori</span>
+                        </p>
+                        <p th:if="${item.product.description != null and !#strings.isEmpty(item.product.description)}"
+                           th:text="${item.product.description}">
+                            Produktbeskrivning
+                        </p>
+                    </div>
+                </div>
+
+                <div class="cart-item-right">
+                    <p>Pris/st: <span th:text="${item.product.price} + ' kr'">299 kr</span></p>
+                    <p>Antal: <span th:text="${item.quantity}">1</span></p>
+                    <p class="line-total">
+                        Radtotal: <span th:text="${item.totalPrice} + ' kr'">299 kr</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="cart-summary">
+            <h2>Sammanfattning</h2>
+            <p class="cart-total">
+                Totalt: <span th:text="${cart.totalCartPrice} + ' kr'">598 kr</span>
+            </p>
+
+            <div class="cart-actions">
+                <a th:href="@{/products}" class="btn">Fortsätt handla</a>
+
+                <!-- Byt till rätt endpoint när checkout finns -->
+                <a th:href="@{/order-confirmation}" class="btn">Gå till checkout</a>
+            </div>
+        </div>
+
+    </section>
+</main>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>
