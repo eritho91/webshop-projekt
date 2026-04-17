@@ -20,7 +20,7 @@ public class DatabaseInit {
 
     @PostConstruct
     public void createUser() {
-        String email = "admin@webshop.com";
+        String email = "erikgthorell@gmail.com";
 
         if (appUserRepository.findByEmail(email).isPresent()) {
             return;

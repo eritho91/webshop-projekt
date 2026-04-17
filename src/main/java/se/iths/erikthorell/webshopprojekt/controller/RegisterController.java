@@ -11,11 +11,11 @@ import se.iths.erikthorell.webshopprojekt.model.AppUser;
 import se.iths.erikthorell.webshopprojekt.service.AppUserService;
 
 @Controller
-public class AuthController {
+public class RegisterController {
 
     private final AppUserService appUserService;
 
-    public AuthController(AppUserService appUserService) {
+    public RegisterController(AppUserService appUserService) {
         this.appUserService = appUserService;
     }
 
