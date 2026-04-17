@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Products</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            margin-top: 30px;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        img {
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .low-stock {
+            color: red;
+            font-weight: bold;
+        }
+
+        .description {
+            display: none;
+            margin-top: 5px;
+            color: #555;
+        }
+
+        .secret-badge {
+            background-color: red;
+            color: white;
+            font-weight: bold;
+            padding: 2px 6px;
+            margin-left: 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+
+        button {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        form {
+            display: inline;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Products</h1>
+
+<!-- Loop categories -->
+<div th:each="entry : ${products}">
+
+    <!-- Category name -->
+    <h2 th:text="${entry.key.name}">Category</h2>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Description</th>
+
+            <!-- Admin only -->
+            <th sec:authorize="hasRole('ROLE_ADMIN')">Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <!-- Loop products -->
+        <tr th:each="product : ${entry.value}">
+
+            <!-- Image -->
+            <td>
+                <img th:src="${product.imageUrl}"
+                     alt="Product image"
+                     width="80"
+                     height="80"/>
+            </td>
+
+            <!-- Name + SECRET badge -->
+            <td>
+                <span th:text="${product.name}">Product Name</span>
+
+                <!-- 🔴 TOP SECRET label -->
+                <span class="secret-badge"
+                      sec:authorize="hasRole('ROLE_ADMIN')"
+                      th:if="${product.adminOnly}">
+            TOP SECRET
+        </span>
+            </td>
+
+            <!-- Price -->
+            <td th:text="${product.price}">0.00</td>
+
+            <!-- Stock -->
+            <td th:text="${product.stock}"
+                th:classappend="${product.stock < 5} ? 'low-stock' : ''">
+            </td>
+
+            <!-- Description -->
+            <td>
+                <button type="button" onclick="toggleDescription(this)">
+                    Show description
+                </button>
+
+                <div class="description"
+                     th:text="${product.description ?: 'No description available'}">
+                </div>
+            </td>
+
+            <!-- Admin actions -->
+            <td sec:authorize="hasRole('ROLE_ADMIN')">
+                <a th:href="@{'/admin/products/edit/' + ${product.id}}">Edit</a>
+
+                <form th:action="@{'/products/' + ${product.id}}" method="post">
+                    <input type="hidden" name="_method" value="delete"/>
+                    <button type="submit"
+                            onclick="return confirm('Delete product?')">
+                        Delete
+                    </button>
+                </form>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<!-- JS for toggle -->
+<script>
+    function toggleDescription(button) {
+        const desc = button.nextElementSibling;
+
+        if (desc.style.display === "none" || desc.style.display === "") {
+            desc.style.display = "block";
+            button.innerText = "Hide description";
+        } else {
+            desc.style.display = "none";
+            button.innerText = "Show description";
+        }
+    }
+</script>
+
+</body>
+</html>
