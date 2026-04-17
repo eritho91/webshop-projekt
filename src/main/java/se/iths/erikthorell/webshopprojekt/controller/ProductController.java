@@ -24,11 +24,6 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<Product> getAllProducts(Authentication auth) {
-        return productService.getProducts(auth);
-    }
-
-    @GetMapping("/products")
     public String showProducts(Model model, Authentication auth) {
         List<Product> products = productService.getProducts(auth);
 
