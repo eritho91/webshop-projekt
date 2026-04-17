@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Orderbekräftelse</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<main class="confirmation-container">
+    <section class="page-intro">
+        <h1>Tack för din beställning!</h1>
+        <p>Din order har tagits emot och en orderbekräftelse har skickats till din e-post.</p>
+    </section>
+
+    <section class="confirmation-card">
+
+        <div class="confirmation-meta">
+            <p>
+                <strong>Användare:</strong>
+                <span th:text="${order.username}">email@example.com</span>
+            </p>
+            <p>
+                <strong>Datum:</strong>
+                <span th:text="${order.orderDate}">2026-04-16 14:30</span>
+            </p>
+        </div>
+
+        <div class="confirmation-items">
+            <h2>Orderdetaljer</h2>
+
+            <div class="confirmation-item header-row">
+                <span>Produkt</span>
+                <span>Antal</span>
+                <span>Pris</span>
+            </div>
+
+            <div class="confirmation-item" th:each="item : ${order.orderItems}">
+                <span th:text="${item.productName}">Protein Powder</span>
+                <span th:text="${item.quantity}">2</span>
+                <span th:text="${item.price} + ' kr'">299 kr</span>
+            </div>
+        </div>
+
+        <div class="confirmation-total">
+            <p>
+                <strong>Totalt:</strong>
+                <span th:text="${order.totalPrice} + ' kr'">598 kr</span>
+            </p>
+        </div>
+
+        <div class="confirmation-actions">
+            <a th:href="@{/products}" class="btn">Fortsätt handla</a>
+            <a th:href="@{/}" class="btn">Till startsidan</a>
+        </div>
+
+    </section>
+</main>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>
