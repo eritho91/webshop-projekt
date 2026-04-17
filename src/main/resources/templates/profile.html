@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Min profil</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<main class="profile-container">
+
+    <section class="page-intro">
+        <h1>Min profil</h1>
+        <p>Här kan du se dina uppgifter och hantera ditt konto.</p>
+    </section>
+
+    <div th:if="${param.sent}" class="success-box">
+        Dina uppgifter har skickats till din e-post.
+    </div>
+
+    <section class="profile-card">
+        <h2>Dina uppgifter</h2>
+
+        <div class="profile-info">
+            <p>
+                <strong>E-post:</strong>
+                <span th:text="${user.email}">email@example.com</span>
+            </p>
+
+            <p>
+                <strong>Roll:</strong>
+                <span th:text="${user.role}">ROLE_USER</span>
+            </p>
+
+            <p>
+                <strong>Godkänt integritetspolicy:</strong>
+                <span th:text="${user.consent} ? 'Ja' : 'Nej'">Ja</span>
+            </p>
+        </div>
+    </section>
+
+    <section class="profile-card">
+        <h2>Kontohantering</h2>
+
+        <div class="profile-actions">
+            <form th:action="@{/profile/email-data}" method="post">
+                <button type="submit" class="btn">Skicka mina uppgifter via e-post</button>
+            </form>
+
+            <form th:action="@{/profile/delete}" method="post"
+                  onsubmit="return confirm('Är du säker på att du vill radera ditt konto? Detta går inte att ångra.')">
+                <button type="submit" class="btn danger-btn">Radera konto</button>
+            </form>
+        </div>
+    </section>
+
+</main>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>
