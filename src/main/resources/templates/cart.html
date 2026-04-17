@@ -63,8 +63,9 @@
             <div class="cart-actions">
                 <a th:href="@{/products}" class="btn">Fortsätt handla</a>
 
-                <!-- Byt till rätt endpoint när checkout finns -->
-                <a th:href="@{/order-confirmation}" class="btn">Gå till checkout</a>
+                <form th:action="@{/checkout}" method="post">
+                    <button type="submit" class="btn">Gå till checkout</button>
+                </form>
             </div>
         </div>
 
