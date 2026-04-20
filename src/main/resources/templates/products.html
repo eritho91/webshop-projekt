@@ -113,7 +113,7 @@
             <td>
                 <span th:text="${product.name}">Product Name</span>
 
-                <!-- 🔴 TOP SECRET label -->
+                <!-- TOP SECRET label -->
                 <span class="secret-badge"
                       sec:authorize="hasRole('ROLE_ADMIN')"
                       th:if="${product.adminOnly}">
