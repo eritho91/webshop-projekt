@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cookie policy</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<main class="policy-container">
+
+    <section class="page-intro">
+        <h1>Cookie policy</h1>
+        <p>Här beskriver vi vilka cookies som används i applikationen och varför.</p>
+    </section>
+
+    <section class="policy-card">
+
+        <h2>Vad är cookies?</h2>
+        <p>
+            Cookies är små textfiler som sparas i din webbläsare när du besöker en webbplats.
+            De används för att förbättra funktionaliteten och användarupplevelsen.
+        </p>
+
+        <h2>Vilka cookies använder vi?</h2>
+        <p>
+            Den här applikationen använder cookies för att:
+        </p>
+        <ul>
+            <li>komma ihåg om du har godkänt cookie-användning</li>
+            <li>hantera inloggning och sessioner</li>
+            <li>få applikationen att fungera korrekt</li>
+        </ul>
+
+        <h2>Varför används cookies?</h2>
+        <p>
+            Cookies används för att ge dig en bättre och mer stabil upplevelse i webbshoppen,
+            till exempel genom att komma ihåg inställningar och hålla dig inloggad under ditt besök.
+        </p>
+
+        <h2>Hur kan du hantera cookies?</h2>
+        <p>
+            Du kan själv välja att blockera eller ta bort cookies via inställningarna i din webbläsare.
+            Observera att vissa delar av webbshoppen då kanske inte fungerar som tänkt.
+        </p>
+
+    </section>
+
+</main>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>

@@ -369,3 +369,104 @@ main {
 .page-intro p {
     color: #555;
 }
+
+.register-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.register-card {
+    background: white;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.checkbox-group input {
+    margin-top: 4px;
+}
+
+.error-text {
+    color: #c62828;
+    font-size: 13px;
+    display: block;
+    margin-top: 4px;
+}
+
+.policy-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.policy-card {
+    background: white;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.policy-card h2 {
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+.policy-card p {
+    margin-bottom: 12px;
+    line-height: 1.6;
+}
+
+.policy-card ul {
+    margin-bottom: 16px;
+    padding-left: 20px;
+}
+
+.policy-card li {
+    margin-bottom: 6px;
+}
+
+.cookie-banner {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    background: #111;
+    color: white;
+    padding: 16px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.cookie-banner-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.cookie-banner p {
+    margin: 0;
+    flex: 1;
+}
+
+.cookie-banner a {
+    color: white;
+    text-decoration: underline;
+}
+
+.hidden {
+    display: none;
+}
