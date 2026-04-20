@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Products</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 
     <style>
         body {
@@ -72,6 +73,8 @@
 
 <body>
 
+<div th:replace="fragments/header :: header"></div>
+
 <h1>Products</h1>
 
 <!-- Loop categories -->
@@ -139,7 +142,7 @@
 
             <!-- Admin actions -->
             <td sec:authorize="hasRole('ROLE_ADMIN')">
-                <a th:href="@{'/admin/products/edit/' + ${product.id}}">Edit</a>
+                <!--<a th:href="@{'/admin/products/edit/' + ${product.id}}">Edit</a>-->
 
                 <form th:action="@{'/products/' + ${product.id}}" method="post">
                     <input type="hidden" name="_method" value="delete"/>
@@ -170,6 +173,8 @@
         }
     }
 </script>
+
+<div th:replace="fragments/footer :: footer"></div>
 
 </body>
 </html>
