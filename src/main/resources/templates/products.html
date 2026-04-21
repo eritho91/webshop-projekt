@@ -76,6 +76,15 @@
                 </div>
             </td>
 
+
+            <td>
+                <form th:action="@{/cart/add/{id}(id=${product.id})}" method="get" style="display:inline;">
+                    <button type="submit" class="product-btn">
+                        Lägg i kundvagn
+                    </button>
+            </td>
+
+
             <!-- Admin actions -->
             <td sec:authorize="hasRole('ROLE_ADMIN')">
                 <!--<a th:href="@{'/admin/products/edit/' + ${product.id}}">Edit</a>-->

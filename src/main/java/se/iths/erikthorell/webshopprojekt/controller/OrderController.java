@@ -50,6 +50,6 @@ public class OrderController {
 
     @GetMapping("/confirmation")
     public String confirmation() {
-        return "confirmation";
+        return "order-confirmation";
     }
 }
