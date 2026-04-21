@@ -7,5 +7,5 @@ import se.iths.erikthorell.webshopprojekt.model.Category;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    Category findByName(String name);
+//    Category findByName(String name);
 }

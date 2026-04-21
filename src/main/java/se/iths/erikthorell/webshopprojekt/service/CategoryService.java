@@ -18,9 +18,9 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public Category findCategoryByName(String name) {
-        return categoryRepository.findByName(name);
-    }
+//    public Category findCategoryByName(String name) {
+//        return categoryRepository.findByName(name);
+//    }
 
     public Category findById(Long id) {
         return categoryRepository.findById(id)
