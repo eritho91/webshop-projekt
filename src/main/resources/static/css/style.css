@@ -85,7 +85,7 @@ main {
     background: white;
     padding: 16px;
     border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
@@ -224,6 +224,7 @@ main {
 .danger-btn:hover {
     background-color: #b52a37;
 }
+
 .empty-cart {
     background: white;
     padding: 24px;
@@ -253,7 +254,7 @@ main {
     background: white;
     padding: 16px;
     border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .cart-item-left {
@@ -293,7 +294,7 @@ main {
     background: white;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .cart-total {
@@ -469,4 +470,138 @@ main {
 
 .hidden {
     display: none;
+}
+
+/* =============
+   PRODUCTS PAGE
+   ============= */
+
+.products-page {
+    margin: 20px;
+}
+
+.products-page h1 {
+    margin-bottom: 30px;
+}
+
+.products-page h2 {
+    margin-top: 30px;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 5px;
+}
+
+.products-page table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.products-page th,
+.products-page td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.products-page img {
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.products-page .low-stock {
+    color: red;
+    font-weight: bold;
+}
+
+.products-page .description {
+    display: none;
+    margin-top: 5px;
+    color: #555;
+}
+
+.products-page .secret-badge {
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    padding: 2px 6px;
+    margin-left: 8px;
+    border-radius: 4px;
+    font-size: 0.8em;
+}
+
+.products-page button {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.products-page form {
+    display: inline;
+}
+
+/* =================
+   PRODUCT FORM PAGE
+   ================= */
+
+.product-form-page {
+    background-color: #f4f6f8;
+}
+
+.product-form-page .container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.product-form-page h1 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.product-form-page .form-group {
+    margin-bottom: 18px;
+}
+
+.product-form-page label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+.product-form-page input,
+.product-form-page select {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.product-form-page input:focus,
+.product-form-page select:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.product-form-page .checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.product-form-page button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.product-form-page button:hover {
+    background-color: #0056b3;
 }
