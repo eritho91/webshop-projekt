@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registrera konto</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<main class="register-container">
+
+    <section class="page-intro">
+        <h1>Skapa konto</h1>
+        <p>Registrera dig för att kunna handla i webbshoppen.</p>
+    </section>
+
+    <section class="register-card">
+        <form th:action="@{/register}" th:object="${appUser}" method="post" class="register-form">
+
+            <div class="form-group">
+                <label for="email">E-post</label>
+                <input id="email" type="email" th:field="*{email}" placeholder="din@email.com">
+                <small class="error-text" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+                    Fel på e-post
+                </small>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Lösenord</label>
+                <input id="password" type="password" th:field="*{password}" placeholder="Lösenord">
+                <small class="error-text" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+                    Fel på lösenord
+                </small>
+            </div>
+
+            <div class="checkbox-group">
+                <input id="consent" type="checkbox" th:field="*{consent}">
+                <label for="consent">
+                    Jag godkänner behandling av personuppgifter enligt
+                    <a th:href="@{/privacy-policy}">integritetspolicyn</a>
+                </label>
+            </div>
+
+            <small class="error-text" th:if="${#fields.hasErrors('consent')}" th:errors="*{consent}">
+                Du måste godkänna integritetspolicyn
+            </small>
+
+            <button type="submit" class="btn">Registrera</button>
+        </form>
+    </section>
+
+</main>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>
