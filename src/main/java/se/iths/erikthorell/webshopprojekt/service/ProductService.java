@@ -8,7 +8,6 @@ import se.iths.erikthorell.webshopprojekt.repository.ProductRepository;
 
 import java.util.Comparator;
 import java.util.LinkedHashMap;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -45,32 +44,8 @@ public class ProductService {
                 ));
     }
 
-    public Product getProductByName(String name) {
-        return productRepository.findByName(name);
-    }
-
-    public Product getProductByCategory(Category category) {
-        return productRepository.findByCategory(category);
-    }
-
-    public Product getProductByPrice(BigDecimal price) {
-        return productRepository.findByPrice(price);
-    }
-
     public Product createProduct(Product product) {
         return productRepository.save(product);
-    }
-
-    public Product updateProduct(Long id, Product product) {
-        Product existing = productRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Product with id " + id + " not found"));
-
-        existing.setName(product.getName());
-        existing.setPrice(product.getPrice());
-        existing.setCategory(product.getCategory());
-
-        return productRepository.save(existing);
     }
 
     public void deleteProduct(Long id) {
@@ -88,4 +63,28 @@ public class ProductService {
         return productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product with id " + id + " not found"));
     }
+
+//    public Product getProductByName(String name) {
+//        return productRepository.findByName(name);
+//    }
+//
+//    public Product getProductByCategory(Category category) {
+//        return productRepository.findByCategory(category);
+//    }
+//
+//    public Product getProductByPrice(BigDecimal price) {
+//        return productRepository.findByPrice(price);
+//    }
+//
+//    public Product updateProduct(Long id, Product product) {
+//        Product existing = productRepository.findById(id)
+//                .orElseThrow(() ->
+//                        new RuntimeException("Product with id " + id + " not found"));
+//
+//        existing.setName(product.getName());
+//        existing.setPrice(product.getPrice());
+//        existing.setCategory(product.getCategory());
+//
+//        return productRepository.save(existing);
+//    }
 }

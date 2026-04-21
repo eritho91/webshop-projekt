@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin - Produkter</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<main class="admin-container">
+
+    <section class="page-intro">
+        <h1>Admin - Produkthantering</h1>
+        <p>Här kan du skapa nya produkter.</p>
+    </section>
+
+    <!-- SKAPA PRODUKT -->
+    <section class="admin-card">
+
+        <h2>Skapa ny produkt</h2>
+
+        <!-- OBS: denna action är preliminär -->
+        <form action="/products" method="post">
+
+            <div class="form-group">
+                <label>Namn</label>
+                <input type="text" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Pris</label>
+                <input type="number" step="0.01" name="price" required>
+            </div>
+
+            <div class="form-group">
+                <label>Lager (stock)</label>
+                <input type="number" name="stock" required>
+            </div>
+
+            <div class="form-group">
+                <label>Beskrivning</label>
+                <textarea name="description"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Bild-URL</label>
+                <input type="text" name="imageUrl">
+            </div>
+
+            <!-- TEMPORÄR kategori -->
+            <div class="form-group">
+                <label>Kategori</label>
+                <input type="text" name="categoryName" placeholder="T.ex Protein">
+            </div>
+
+            <button type="submit" class="btn">Skapa produkt</button>
+
+        </form>
+
+    </section>
+
+    <!-- PLACEHOLDER -->
+    <section class="admin-card">
+        <h2>Produkter</h2>
+        <p>Produktlista kommer här när backend är klar.</p>
+    </section>
+
+</main>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>
