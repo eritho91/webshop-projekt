@@ -11,7 +11,7 @@
 
 <div th:replace="fragments/header :: header"></div>
 
-<h1>Products</h1>
+<h1>Produkter</h1>
 
 <!-- Loop categories -->
 <div th:each="entry : ${products}">
@@ -22,14 +22,14 @@
     <table>
         <thead>
         <tr>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Stock</th>
-            <th>Description</th>
+            <th></th>
+            <th>Namn</th>
+            <th>Pris</th>
+            <th>Lagersaldo</th>
+            <th></th>
 
             <!-- Admin only -->
-            <th sec:authorize="hasRole('ROLE_ADMIN')">Actions</th>
+            <th sec:authorize="hasRole('ROLE_ADMIN')"></th>
         </tr>
         </thead>
 
@@ -58,7 +58,7 @@
             </td>
 
             <!-- Price -->
-            <td th:text="${product.price}">0.00</td>
+            <td th:text="${product.price.intValue()} + ' kr'">0.00</td>
 
             <!-- Stock -->
             <td th:text="${product.stock}"
@@ -68,7 +68,7 @@
             <!-- Description -->
             <td>
                 <button type="button" onclick="toggleDescription(this)">
-                    Show description
+                    Visa beskrivning
                 </button>
 
                 <div class="description"
@@ -79,9 +79,10 @@
 
             <td>
                 <form th:action="@{/cart/add/{id}(id=${product.id})}" method="get" style="display:inline;">
-                    <button type="submit" class="product-btn">
-                        Lägg i kundvagn
+                    <button type="submit" class="product-btn" onclick="localStorage.setItem('showToast', 'true')"> Lägg
+                        i kundvagn
                     </button>
+                </form>
             </td>
 
 
@@ -93,7 +94,7 @@
                     <input type="hidden" name="_method" value="delete"/>
                     <button type="submit"
                             onclick="return confirm('Delete product?')">
-                        Delete
+                        Ta bort
                     </button>
                 </form>
             </td>
@@ -111,15 +112,37 @@
 
         if (desc.style.display === "none" || desc.style.display === "") {
             desc.style.display = "block";
-            button.innerText = "Hide description";
+            button.innerText = "Dölj beskrivning";
         } else {
             desc.style.display = "none";
-            button.innerText = "Show description";
+            button.innerText = "Visa beskrivning";
         }
     }
 </script>
 
 <div th:replace="fragments/footer :: footer"></div>
+
+
+<script>
+    if (localStorage.getItem('showToast')) {
+        const t = document.createElement("div");
+        t.innerText = "Tillagd i kundvagn! 🛒";
+        Object.assign(t.style, {
+            position: "fixed",
+            bottom: "20px",
+            right: "20px",
+            padding: "15px",
+            background: "#333",
+            color: "#fff",
+            borderRadius: "5px",
+            zIndex: "1000"
+        });
+        document.body.appendChild(t);
+
+        localStorage.removeItem('showToast');
+        setTimeout(() => t.remove(), 2000); // Försvinner efter 2 sekunder
+    }
+</script>
 
 </body>
 </html>

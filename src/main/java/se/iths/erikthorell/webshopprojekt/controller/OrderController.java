@@ -23,7 +23,13 @@ public class OrderController {
     @PostMapping("/checkout")
     public String checkout(HttpSession session, Authentication authentication, RedirectAttributes redirectAttributes) {
 
-        // hämtar kundvagn
+        if (authentication == null || !authentication.isAuthenticated()) {
+            redirectAttributes.addFlashAttribute
+                    ("loginError", "Du måste skapa ett konto och vara inloggad för att handla i shoppen");
+            return "redirect:/login";
+        }
+
+        // hämta kundvagn
         Cart cart = (Cart) session.getAttribute("cart");
 
         // om vagnen inte finns eller är tom, så skickas kunden tillbaks till cart
