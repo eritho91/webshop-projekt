@@ -11,6 +11,15 @@
 <main class="cart-container">
     <section class="page-intro">
         <h1>Din kundvagn</h1>
+
+
+        <div th:if="${loginRequired}"
+             style="color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+            <p th:text="${loginRequired}"></p>
+            <a th:href="@{/login}" class="btn">Logga in</a>
+        </div>
+
+
         <p>Här ser du produkterna du har lagt till i kundvagnen.</p>
     </section>
 
@@ -51,6 +60,29 @@
                         Radtotal: <span th:text="${item.totalPrice} + ' kr'">299 kr</span>
                     </p>
                 </div>
+
+
+                <div style="display: flex; gap: 10px; margin: 10px 0;">
+                    <form th:action="@{/cart/update}" method="post">
+                        <input type="hidden" name="id" th:value="${item.product.id}">
+                        <input type="hidden" name="amount" value="-1">
+                        <button type="submit">-</button>
+                    </form>
+                    <strong th:text="${item.quantity}"></strong>
+                    <form th:action="@{/cart/update}" method="post">
+                        <input type="hidden" name="id" th:value="${item.product.id}">
+                        <input type="hidden" name="amount" value="1">
+                        <button type="submit">+</button>
+                    </form>
+                </div>
+
+                <form th:action="@{/cart/remove}" method="post">
+                    <input type="hidden" name="id" th:value="${item.product.id}">
+                    <button type="submit" style="color: red; background: none; border: none; cursor: pointer;">Ta bort
+                    </button>
+                </form>
+
+
             </div>
         </div>
 
