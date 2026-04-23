@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authorization.EnableMultiFactorAuthentication;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.authority.FactorGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,6 +17,7 @@ import se.iths.erikthorell.webshopprojekt.service.MagicLinkOneTimeTokenGeneratio
         FactorGrantedAuthority.PASSWORD_AUTHORITY,
         FactorGrantedAuthority.OTT_AUTHORITY
 })
+@EnableWebSecurity
 public class SecurityConfig {
 
     @Bean
@@ -32,7 +34,7 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
-                .formLogin(Customizer.withDefaults())
+                .formLogin(form -> form.defaultSuccessUrl("/login", true))
                 .oneTimeTokenLogin(ott -> ott
                         .tokenGenerationSuccessHandler(magicLinkHandler)
                 )
