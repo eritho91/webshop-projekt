@@ -8,11 +8,25 @@
 
 <div th:replace="fragments/header :: header"></div>
 
+<div id="cookie-banner" class="cookie-banner hidden">
+    <div class="cookie-banner-content">
+        <p>
+            Vi använder cookies för att webbshoppen ska fungera korrekt och för att komma ihåg dina val.
+            Läs mer i vår
+            <a th:href="@{/cookie-policy}">cookie policy</a>.
+        </p>
+        <button id="accept-cookies" class="btn">Jag accepterar</button>
+    </div>
+</div>
+
 <main>
     <h2>Välkommen till Vitamax</h2>
+    <p>Upptäck vårt sortiment av kosttillskott inom protein, vitaminer, kreatin och mer.</p>
 </main>
 
 <div th:replace="fragments/footer :: footer"></div>
+
+<script th:src="@{/js/cookie-consent.js}"></script>
 
 </body>
 </html>

@@ -1,72 +1,74 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Admin - Produkter</title>
+    <meta charset="UTF-8">
+    <title>Create Product</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<body>
+
+<body class="product-form-page">
 
 <div th:replace="fragments/header :: header"></div>
 
-<main class="admin-container">
+<div class="container">
 
-    <section class="page-intro">
-        <h1>Admin - Produkthantering</h1>
-        <p>Här kan du skapa nya produkter.</p>
-    </section>
+    <h1>Create New Product</h1>
 
-    <!-- SKAPA PRODUKT -->
-    <section class="admin-card">
+    <form th:action="@{/products}" th:object="${product}" method="post">
 
-        <h2>Skapa ny produkt</h2>
+        <!-- CSRF -->
+        <input type="hidden"
+               th:name="${_csrf.parameterName}"
+               th:value="${_csrf.token}"/>
 
-        <!-- OBS: denna action är preliminär -->
-        <form action="/products" method="post">
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" th:field="*{name}" placeholder="Enter product name"/>
+        </div>
 
-            <div class="form-group">
-                <label>Namn</label>
-                <input type="text" name="name" required>
-            </div>
+        <div class="form-group">
+            <label>Price</label>
+            <input type="number" step="0.01" th:field="*{price}" placeholder="0.00"/>
+        </div>
 
-            <div class="form-group">
-                <label>Pris</label>
-                <input type="number" step="0.01" name="price" required>
-            </div>
+        <div class="form-group">
+            <label>Stock</label>
+            <input type="number" th:field="*{stock}" placeholder="0"/>
+        </div>
 
-            <div class="form-group">
-                <label>Lager (stock)</label>
-                <input type="number" name="stock" required>
-            </div>
+        <div class="form-group">
+            <label>Description</label>
+            <input type="text" th:field="*{description}" placeholder="Short description"/>
+        </div>
 
-            <div class="form-group">
-                <label>Beskrivning</label>
-                <textarea name="description"></textarea>
-            </div>
+        <div class="form-group">
+            <label>Image URL</label>
+            <input type="text" th:field="*{imageUrl}" placeholder="https://..."/>
+        </div>
 
-            <div class="form-group">
-                <label>Bild-URL</label>
-                <input type="text" name="imageUrl">
-            </div>
+        <div class="form-group checkbox-group">
+            <input type="checkbox" th:field="*{adminOnly}"/>
+            <label>Admin Only (Top Secret)</label>
+        </div>
 
-            <!-- TEMPORÄR kategori -->
-            <div class="form-group">
-                <label>Kategori</label>
-                <input type="text" name="categoryName" placeholder="T.ex Protein">
-            </div>
+        <div class="form-group">
+            <label>Category</label>
+            <select th:field="*{category.id}">
+                <option value="">-- Select Category --</option>
+                <option th:each="cat : ${categories}"
+                        th:value="${cat.id}"
+                        th:text="${cat.name}">
+                </option>
+            </select>
+        </div>
 
-            <button type="submit" class="btn">Skapa produkt</button>
+        <div style="margin-top: 100px;">
+            <button type="submit">Save Product</button>
+        </div>
 
-        </form>
+    </form>
 
-    </section>
-
-    <!-- PLACEHOLDER -->
-    <section class="admin-card">
-        <h2>Produkter</h2>
-        <p>Produktlista kommer här när backend är klar.</p>
-    </section>
-
-</main>
+</div>
 
 <div th:replace="fragments/footer :: footer"></div>
 

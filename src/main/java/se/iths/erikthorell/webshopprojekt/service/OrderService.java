@@ -37,6 +37,7 @@ public class OrderService {
             OrderItem orderItem = new OrderItem();
             orderItem.setProduct(item.getProduct());
             orderItem.setQuantity(item.getQuantity());
+            
 
             // sparar nuvarande pris på orderrad
             orderItem.setPriceAtPurchase(item.getProduct().getPrice());
@@ -49,8 +50,41 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
+
     // hämtar en lista över alla ordrar från en specifik kund
     public List<Order> getOrdersByUser(String userEmail) {
         return orderRepository.findByUserEmail(userEmail);
     }
 }
+
+
+//    public Order checkOut(Cart cart, String username) {
+//
+//        if (cart == null || cart.getItems().isEmpty()) {
+//            throw new IllegalArgumentException("Kundvagn är tom");
+//        }
+//        List<OrderItem> items = cart.getItems().stream()
+//                .map(item -> new OrderItem(
+//                        item.getProduct(),
+//                        item.getTotalPrice(),
+//                        item.getQuantity()
+//                ))
+//                .toList();
+//        Order order = new Order(
+//                username,
+//                LocalDateTime.now(),
+//                cart.getTotalCartPrice(),
+//                items);
+//
+//        Order savedOrder = orderRepository.save(order);
+//
+//        cart.clear();
+//        Email email = new Email();
+//        email.setRecipient(username);
+//        email.setSubject("Din order");
+//        email.setMessage(savedOrder, toMail());
+//        messageService.send(email);
+//
+//    }
+
+
