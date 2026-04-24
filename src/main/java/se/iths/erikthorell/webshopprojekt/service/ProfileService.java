@@ -1,9 +1,9 @@
 package se.iths.erikthorell.webshopprojekt.service;
 
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import se.iths.erikthorell.springmessenger.model.Email;
+import se.iths.erikthorell.springmessenger.service.MessageService;
 import se.iths.erikthorell.webshopprojekt.model.AppUser;
 import se.iths.erikthorell.webshopprojekt.repository.AppUserRepository;
 
@@ -11,11 +11,11 @@ import se.iths.erikthorell.webshopprojekt.repository.AppUserRepository;
 public class ProfileService {
 
     private final AppUserRepository appUserRepository;
-    private final JavaMailSender mailSender;
+    private final MessageService messageService;
 
-    public ProfileService(AppUserRepository appUserRepository, JavaMailSender mailSender) {
+    public ProfileService(AppUserRepository appUserRepository, MessageService messageService) {
         this.appUserRepository = appUserRepository;
-        this.mailSender = mailSender;
+        this.messageService = messageService;
     }
 
     public AppUser getLoggedInUser(Authentication authentication) {
@@ -28,17 +28,17 @@ public class ProfileService {
     public void sendUserDataByEmail(Authentication authentication) {
         AppUser user = getLoggedInUser(authentication);
 
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(user.getEmail());
-        message.setSubject("Dina kontouppgifter");
-        message.setText(
+        Email email = new Email();
+        email.setRecipient(user.getEmail());
+        email.setSubject("Dina kontouppgifter");
+        email.setMessage(
                 "Här är dina uppgifter:\n\n" +
                         "E-post: " + user.getEmail() + "\n" +
                         "Roll: " + user.getRole() + "\n" +
                         "Samtycke: " + user.isConsent()
         );
 
-        mailSender.send(message);
+        messageService.send(email);
     }
 
     public void deleteLoggedInUser(Authentication authentication) {

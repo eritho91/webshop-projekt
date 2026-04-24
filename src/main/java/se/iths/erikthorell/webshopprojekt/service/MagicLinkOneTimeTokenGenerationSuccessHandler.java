@@ -3,33 +3,36 @@ package se.iths.erikthorell.webshopprojekt.service;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.ott.OneTimeToken;
 import org.springframework.security.web.authentication.ott.OneTimeTokenGenerationSuccessHandler;
 import org.springframework.security.web.authentication.ott.RedirectOneTimeTokenGenerationSuccessHandler;
 import org.springframework.security.web.util.UrlUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
+import se.iths.erikthorell.springmessenger.model.Email;
+import se.iths.erikthorell.springmessenger.service.MessageService;
 
 import java.io.IOException;
 
 @Component
 public class MagicLinkOneTimeTokenGenerationSuccessHandler implements OneTimeTokenGenerationSuccessHandler {
 
-    private final JavaMailSender mailSender;
+    private final MessageService messageService;
 
     private final OneTimeTokenGenerationSuccessHandler redirectHandler =
             new RedirectOneTimeTokenGenerationSuccessHandler("/ott/sent");
 
-    public MagicLinkOneTimeTokenGenerationSuccessHandler(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
+    public MagicLinkOneTimeTokenGenerationSuccessHandler(MessageService messageService) {
+        this.messageService = messageService;
     }
 
     @Override
     public void handle(HttpServletRequest request,
                        HttpServletResponse response,
                        OneTimeToken oneTimeToken) throws IOException, ServletException {
+
+        System.out.println("MAGIC LINK HANDLER KÖRS");
+        System.out.println("TOKEN USERNAME = " + oneTimeToken.getUsername());
 
         String magicLink = UriComponentsBuilder.fromUriString(UrlUtils.buildFullRequestUrl(request))
                 .replacePath(request.getContextPath())
@@ -39,12 +42,15 @@ public class MagicLinkOneTimeTokenGenerationSuccessHandler implements OneTimeTok
                 .queryParam("token", oneTimeToken.getTokenValue())
                 .toUriString();
 
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(oneTimeToken.getUsername());
-        message.setSubject("Din inloggningslänk");
-        message.setText("Klicka på länken för att slutföra inloggningen:\n" + magicLink);
+        System.out.println("MAGIC LINK:");
+        System.out.println(magicLink);
 
-        mailSender.send(message);
+        Email email = new Email();
+        email.setRecipient(oneTimeToken.getUsername());
+        email.setSubject("Din inloggningslänk");
+        email.setMessage("Klicka på länken för att slutföra inloggningen:\n" + magicLink);
+
+        messageService.send(email);
 
         redirectHandler.handle(request, response, oneTimeToken);
     }

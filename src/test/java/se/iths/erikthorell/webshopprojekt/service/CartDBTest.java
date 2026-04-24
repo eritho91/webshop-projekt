@@ -3,10 +3,10 @@ package se.iths.erikthorell.webshopprojekt.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.transaction.annotation.Transactional;
+import se.iths.erikthorell.springmessenger.service.MessageService;
 import se.iths.erikthorell.webshopprojekt.model.Cart;
 import se.iths.erikthorell.webshopprojekt.model.Product;
 
@@ -23,14 +23,13 @@ public class CartDBTest {
     private MockHttpSession session = new MockHttpSession();
 
     @MockitoBean
-    private JavaMailSender javaMailSender;
+    private MessageService messageService;
 
     @Test
     void createCart() {
         Cart cart = cartService.getOrCreateCart(session);
 
         assertNotNull(cart);
-
         assertNotNull(session.getAttribute("cart"));
     }
 
@@ -48,12 +47,11 @@ public class CartDBTest {
         assertEquals("mat", cart.getItems().get(0).getProduct().getName());
     }
 
-
     @Test
     void clearCart() {
         Product p = new Product();
-        cartService.addProductToCart(p, session);
 
+        cartService.addProductToCart(p, session);
         cartService.clearCart(session);
 
         Cart cart = (Cart) session.getAttribute("cart");
