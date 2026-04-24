@@ -49,7 +49,7 @@ class CartServiceTest {
         Cart results = cartService.getOrCreateCart(session);
         // kontrollerar resultat
         assertEquals(existing, results);
-        
+
     }
 
     @Test

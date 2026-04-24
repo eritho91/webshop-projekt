@@ -3,10 +3,10 @@ package se.iths.erikthorell.webshopprojekt.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.mock.web.MockHttpSession;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.transaction.annotation.Transactional;
-import se.iths.erikthorell.springmessenger.service.MessageService;
+import se.iths.erikthorell.webshopprojekt.TestConfig;
 import se.iths.erikthorell.webshopprojekt.model.Cart;
 import se.iths.erikthorell.webshopprojekt.model.Product;
 
@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @Transactional
+@Import(TestConfig.class)
 public class CartDBTest {
 
     @Autowired
@@ -22,8 +23,6 @@ public class CartDBTest {
 
     private MockHttpSession session = new MockHttpSession();
 
-    @MockitoBean
-    private MessageService messageService;
 
     @Test
     void createCart() {
