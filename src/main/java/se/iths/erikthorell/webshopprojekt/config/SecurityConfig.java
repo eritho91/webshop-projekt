@@ -4,8 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authorization.EnableMultiFactorAuthentication;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.authority.FactorGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,11 +13,11 @@ import org.springframework.security.web.SecurityFilterChain;
 import se.iths.erikthorell.webshopprojekt.service.MagicLinkOneTimeTokenGenerationSuccessHandler;
 
 @Configuration
+@EnableMethodSecurity
 @EnableMultiFactorAuthentication(authorities = {
         FactorGrantedAuthority.PASSWORD_AUTHORITY,
         FactorGrantedAuthority.OTT_AUTHORITY
 })
-@EnableWebSecurity
 public class SecurityConfig {
 
     @Bean
@@ -28,13 +28,22 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/register", "/privacy-policy", "/cookie-policy").permitAll()
-                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
-                        .requestMatchers("/login/**", "/ott/**").permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers(
+                                "/",
+                                "/register",
+                                "/privacy-policy",
+                                "/cookie-policy",
+                                "/ott/sent",
+                                "/css/**",
+                                "/js/**",
+                                "/images/**"
+                        ).permitAll()
+                        .requestMatchers("/admin", "/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
-                .formLogin(form -> form.defaultSuccessUrl("/login", true))
+                .formLogin(form -> form
+                        .defaultSuccessUrl("/products", true)
+                )
                 .oneTimeTokenLogin(ott -> ott
                         .tokenGenerationSuccessHandler(magicLinkHandler)
                 )
