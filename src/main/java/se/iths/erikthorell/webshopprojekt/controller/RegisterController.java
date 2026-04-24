@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import se.iths.erikthorell.webshopprojekt.model.AppUser;
+import se.iths.erikthorell.webshopprojekt.model.Role;
 import se.iths.erikthorell.webshopprojekt.service.AppUserService;
 
 @Controller
@@ -22,25 +23,38 @@ public class RegisterController {
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
         model.addAttribute("appUser", new AppUser());
+        model.addAttribute("roles", Role.values());
         return "register";
     }
 
     @PostMapping("/register")
     public String registerUser(@Valid @ModelAttribute("appUser") AppUser appUser,
-                               BindingResult bindingResult) {
+                               BindingResult bindingResult,
+                               Model model) {
 
         if (!appUser.isConsent()) {
-            bindingResult.rejectValue("consent", "error.appUser", "Du måste godkänna integritetspolicyn.");
+            bindingResult.rejectValue(
+                    "consent",
+                    "error.appUser",
+                    "Du måste godkänna integritetspolicyn."
+            );
         }
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("roles", Role.values());
             return "register";
         }
 
         try {
             appUserService.registerUser(appUser);
         } catch (IllegalArgumentException e) {
-            bindingResult.rejectValue("email", "error.appUser", e.getMessage());
+            bindingResult.rejectValue(
+                    "email",
+                    "error.appUser",
+                    e.getMessage()
+            );
+
+            model.addAttribute("roles", Role.values());
             return "register";
         }
 
