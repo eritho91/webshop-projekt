@@ -6,17 +6,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import se.iths.erikthorell.springmessenger.model.Email;
+import se.iths.erikthorell.springmessenger.model.Message;
+import se.iths.erikthorell.springmessenger.service.MessageService;
 import se.iths.erikthorell.webshopprojekt.model.Cart;
 import se.iths.erikthorell.webshopprojekt.model.Order;
 import se.iths.erikthorell.webshopprojekt.service.OrderService;
+
 
 @Controller
 public class OrderController {
 
     private final OrderService orderService;
+    private final MessageService messageService;
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, MessageService messageService) {
         this.orderService = orderService;
+        this.messageService = messageService;
     }
 
 
@@ -43,6 +49,17 @@ public class OrderController {
         // skapar ordern
         Order savedOrder = orderService.createOrder(cart, userEmail);
 
+        try {
+            Message email = new Email();
+            email.setRecipient(userEmail);
+            email.setMessage("Tack för din beställning! Totalbelopp: " + savedOrder.getTotalAmount() + " kr.");
+
+            messageService.send(email);
+        } catch (Exception e) {
+            // Vi loggar bara om mailet misslyckas, så att kunden fortfarande får sin bekräftelse på skärmen
+            System.err.println("Kunde inte skicka mail: " + e.getMessage());
+        }
+        // ------------------------------------------------
 
         cart.clear();
 

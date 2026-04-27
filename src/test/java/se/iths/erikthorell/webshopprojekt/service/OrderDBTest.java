@@ -3,15 +3,14 @@ package se.iths.erikthorell.webshopprojekt.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
-import se.iths.erikthorell.springmessenger.service.MessageService;
+import se.iths.erikthorell.webshopprojekt.TestConfig;
 import se.iths.erikthorell.webshopprojekt.model.Cart;
 import se.iths.erikthorell.webshopprojekt.model.Category;
 import se.iths.erikthorell.webshopprojekt.model.Order;
 import se.iths.erikthorell.webshopprojekt.model.Product;
 import se.iths.erikthorell.webshopprojekt.repository.CategoryRepository;
-import se.iths.erikthorell.webshopprojekt.repository.OrderRepository;
 import se.iths.erikthorell.webshopprojekt.repository.ProductRepository;
 
 import java.math.BigDecimal;
@@ -20,7 +19,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
-public class OrderIntegrationTest {
+@Import(TestConfig.class)
+public class OrderDBTest {
 
     @Autowired
     private OrderService orderService;
@@ -31,11 +31,6 @@ public class OrderIntegrationTest {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    @Autowired
-    private OrderRepository orderRepository;
-
-    @MockitoBean
-    private MessageService messageService;
 
     @Test
     void createOrder() {
